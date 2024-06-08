@@ -239,7 +239,10 @@ public class Form_Empleados extends javax.swing.JFrame {
             empleado.setFechaContratacion(fechaContratacion);
         }
 
-        empleado.setEmpleadoID(EmpleadoActual.getEmpleadoID());
+        if(opcionesCRUD!=CREAR)
+        {
+            empleado.setEmpleadoID(EmpleadoActual.getEmpleadoID());
+        }
         return empleado;
     }
 
