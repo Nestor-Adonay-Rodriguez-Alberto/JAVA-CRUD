@@ -83,7 +83,9 @@ public class Form_INICIO extends javax.swing.JFrame {
     }//GEN-LAST:event_MenuEmpleadosActionPerformed
 
     private void MenuProyectosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuProyectosActionPerformed
-        // TODO add your handling code here:
+        Form_Inicio_Proyecto Inicio_Proyectco = new Form_Inicio_Proyecto();
+        Inicio_Proyectco.setTitle("REGISTROS");
+        Inicio_Proyectco.setVisible(true);
     }//GEN-LAST:event_MenuProyectosActionPerformed
 
     
