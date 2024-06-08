@@ -1,19 +1,26 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.java.crud;
 
-/**
- *
- * @author MINEDUCYT
- */
+import Acceso_Datos.EmpleadoDAL;
+import Entidades.Empleado;
+import Utilerias.OpcionesCRUD;
+import static Utilerias.OpcionesCRUD.CREAR;
+import static Utilerias.OpcionesCRUD.EDITAR;
+import static Utilerias.OpcionesCRUD.ELIMINAR;
+import java.util.Date;
+import javax.swing.JOptionPane;
+
 public class Form_Empleados extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Form_Empleados
-     */
-    public Form_Empleados() {
+    // ATRIBUTOS:
+    private OpcionesCRUD opcionesCRUD;
+    private Empleado EmpleadoActual;
+
+    // CONTRUCTOR:
+    public Form_Empleados(OpcionesCRUD opcion, Empleado empleado) {
+        // Guardamos Opcion A Realizar:
+        opcionesCRUD = opcion;
+        EmpleadoActual = empleado;
+
         initComponents();
     }
 
@@ -28,11 +35,11 @@ public class Form_Empleados extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        TxtNOMBRE = new javax.swing.JTextField();
+        TxtAPELLIDO = new javax.swing.JTextField();
+        TxtCARGO = new javax.swing.JTextField();
+        TxtSALARIO = new javax.swing.JTextField();
+        TxtFechaContratacion = new com.toedter.calendar.JDateChooser();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -94,11 +101,11 @@ public class Form_Empleados extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jTextField4)
-                                .addComponent(jTextField2)
-                                .addComponent(jTextField1)
-                                .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
-                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(TxtCARGO, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                                .addComponent(TxtAPELLIDO)
+                                .addComponent(TxtNOMBRE)
+                                .addComponent(TxtSALARIO, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(TxtFechaContratacion, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -109,26 +116,26 @@ public class Form_Empleados extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(TxtNOMBRE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TxtAPELLIDO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TxtCARGO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TxtSALARIO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel7))
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(TxtFechaContratacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -142,10 +149,29 @@ public class Form_Empleados extends javax.swing.JFrame {
 
     /*                      EVENTOS DE BOTONES
     *********************************************************************/
-    
     // BOTON GUARDAR:
     private void BtnGUARDARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnGUARDARActionPerformed
-        // TODO add your handling code here:
+        if (opcionesCRUD != null) {
+            switch (opcionesCRUD) {
+                case CREAR:
+                    CrearRegistro();
+                    this.setVisible(false);
+                    break;
+
+                case EDITAR:
+                    //EditarRegistro();
+                    this.setVisible(false);
+                    break;
+
+                case ELIMINAR:
+                    //EliminarRegistro();
+                    this.setVisible(false);
+                    break;
+
+                default:
+                    break;
+            }
+        }
     }//GEN-LAST:event_BtnGUARDARActionPerformed
 
     // BOTON CANCELAR:
@@ -153,46 +179,102 @@ public class Form_Empleados extends javax.swing.JFrame {
         setVisible(false);
     }//GEN-LAST:event_BtnCancelarActionPerformed
 
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Form_Empleados.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Form_Empleados.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Form_Empleados.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Form_Empleados.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    /*                    METODO REALIZAR CAMBIOS EN DB
+    *********************************************************************/
+    // OBTIENE LOS ATRIBUTOS DEL FORMULARIO Y CREAR UN OBJETO DE ELLOS
+    private Empleado DatosDelFormulario() {
+        // Objeto:
+        Empleado empleado = new Empleado();
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Form_Empleados().setVisible(true);
+        // Datos Del Formulario:
+        String nombre = TxtNOMBRE.getText();
+        String apellido = TxtAPELLIDO.getText();
+        String cargo = TxtCARGO.getText();
+        String salarioText = TxtSALARIO.getText();
+        Date fechaContratacion = TxtFechaContratacion.getDate();
+
+        // Validamos Que No Esten Vasios:       
+        if (nombre.isEmpty()) {
+            throw new IllegalArgumentException("Debe Ingresar Un Nombre");
+        } else {
+            empleado.setNombre(nombre);
+        }
+
+        if (apellido.isEmpty()) {
+            throw new IllegalArgumentException("Debe Ingresar Un Apellido");
+        } else {
+            empleado.setApellido(apellido);
+        }
+
+        if (cargo.isEmpty()) {
+            throw new IllegalArgumentException("Debe Ingresar Un Cargo");
+        } else {
+            empleado.setCargo(cargo);
+        }
+
+        if (salarioText.isEmpty()) {
+            throw new IllegalArgumentException("Debe Ingresar Un Salario");
+        } else {
+
+            try 
+            {
+                double salario = Double.parseDouble(salarioText);
+                empleado.setSalario(salario);
+            } 
+            catch (NumberFormatException e)
+            {
+                throw new IllegalArgumentException("No Se Permite Letras En Salario");
             }
-        });
+
+        }
+
+        if (fechaContratacion == null) {
+            throw new IllegalArgumentException("Debe Ingresar Una Fecha De Contratacion");
+        }
+        else
+        {
+            empleado.setFechaContratacion(fechaContratacion);
+        }
+
+        return empleado;
+    }
+
+    // CREAR NUEVO REGISTRO:
+    private void CrearRegistro() {
+        try {
+            // Obtenemos Objeto Con inf Del Formulario:
+            Empleado empleado = DatosDelFormulario();
+
+            // Creamos El Registro:           
+            int result = EmpleadoDAL.Crear(empleado);
+
+            // Mensaje De Fila Afectada
+            if (result > 0) {
+                JOptionPane.showMessageDialog(this,
+                        "El Empleado fue registrado existosamente", "REGISTRADO",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "Alguno De Los Campos Esta Vasio", "ERROR",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        } 
+        catch (Exception ex) {
+            JOptionPane.showMessageDialog(this,
+                    ex.getMessage(), "ERROR",
+                    JOptionPane.ERROR_MESSAGE);         
+        }
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnCancelar;
     private javax.swing.JButton BtnGUARDAR;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private javax.swing.JTextField TxtAPELLIDO;
+    private javax.swing.JTextField TxtCARGO;
+    private com.toedter.calendar.JDateChooser TxtFechaContratacion;
+    private javax.swing.JTextField TxtNOMBRE;
+    private javax.swing.JTextField TxtSALARIO;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -200,9 +282,5 @@ public class Form_Empleados extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     // End of variables declaration//GEN-END:variables
 }

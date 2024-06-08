@@ -1,5 +1,8 @@
 package com.mycompany.java.crud;
 
+import Entidades.Empleado;
+import Utilerias.OpcionesCRUD;
+
 
 public class Form_Inicio_Empleados extends javax.swing.JFrame {
 
@@ -90,7 +93,7 @@ public class Form_Inicio_Empleados extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(BtnELIMINAR, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(BtnCANCELAR, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(BtnCANCELAR, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(149, 149, 149)
                         .addComponent(jLabel1)
@@ -131,12 +134,17 @@ public class Form_Inicio_Empleados extends javax.swing.JFrame {
     
     // BOTON CREAR:
     private void BtnCREARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCREARActionPerformed
-        // TODO add your handling code here:
+        
+        // LLamada Del Formulario:
+        Form_Empleados Formulario_Empleados = new Form_Empleados(OpcionesCRUD.CREAR, new Empleado());
+        Formulario_Empleados.setTitle("NUEVO REGISTRO");
+        Formulario_Empleados.setVisible(true);
+        
     }//GEN-LAST:event_BtnCREARActionPerformed
 
     // BOTON EDITAR:
     private void BtnEDITARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEDITARActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_BtnEDITARActionPerformed
 
     // BOTON ELIMINAR:
