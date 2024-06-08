@@ -194,25 +194,25 @@ public class Form_Empleados extends javax.swing.JFrame {
         Date fechaContratacion = TxtFechaContratacion.getDate();
 
         // Validamos Que No Esten Vasios:       
-        if (nombre.isEmpty()) {
+        if (nombre.trim().isEmpty()) {
             throw new IllegalArgumentException("Debe Ingresar Un Nombre");
         } else {
             empleado.setNombre(nombre);
         }
 
-        if (apellido.isEmpty()) {
+        if (apellido.trim().isEmpty()) {
             throw new IllegalArgumentException("Debe Ingresar Un Apellido");
         } else {
             empleado.setApellido(apellido);
         }
 
-        if (cargo.isEmpty()) {
+        if (cargo.trim().isEmpty()) {
             throw new IllegalArgumentException("Debe Ingresar Un Cargo");
         } else {
             empleado.setCargo(cargo);
         }
 
-        if (salarioText.isEmpty()) {
+        if (salarioText.trim().isEmpty()) {
             throw new IllegalArgumentException("Debe Ingresar Un Salario");
         } else {
 
@@ -259,9 +259,9 @@ public class Form_Empleados extends javax.swing.JFrame {
                         JOptionPane.ERROR_MESSAGE);
             }
         } 
-        catch (Exception ex) {
+        catch (Exception Error) {
             JOptionPane.showMessageDialog(this,
-                    ex.getMessage(), "ERROR",
+                    Error.getMessage(), "ERROR",
                     JOptionPane.ERROR_MESSAGE);         
         }
 

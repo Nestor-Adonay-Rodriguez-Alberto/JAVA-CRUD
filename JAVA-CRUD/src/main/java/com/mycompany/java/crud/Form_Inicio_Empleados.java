@@ -1,7 +1,10 @@
 package com.mycompany.java.crud;
 
+import Acceso_Datos.EmpleadoDAL;
 import Entidades.Empleado;
 import Utilerias.OpcionesCRUD;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 
 
 public class Form_Inicio_Empleados extends javax.swing.JFrame {
@@ -25,7 +28,7 @@ public class Form_Inicio_Empleados extends javax.swing.JFrame {
         BtnCREAR = new javax.swing.JButton();
         BtnBUSCAR = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        TablaResultados = new javax.swing.JTable();
         BtnEDITAR = new javax.swing.JButton();
         BtnELIMINAR = new javax.swing.JButton();
         BtnCANCELAR = new javax.swing.JButton();
@@ -46,7 +49,7 @@ public class Form_Inicio_Empleados extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        TablaResultados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -57,7 +60,7 @@ public class Form_Inicio_Empleados extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(TablaResultados);
 
         BtnEDITAR.setText("EDITAR");
         BtnEDITAR.addActionListener(new java.awt.event.ActionListener() {
@@ -87,13 +90,13 @@ public class Form_Inicio_Empleados extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 758, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(BtnEDITAR, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(BtnELIMINAR, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(BtnCANCELAR, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 758, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(149, 149, 149)
                         .addComponent(jLabel1)
@@ -115,13 +118,13 @@ public class Form_Inicio_Empleados extends javax.swing.JFrame {
                     .addComponent(BtnBUSCAR, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnCREAR, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BtnEDITAR)
                     .addComponent(BtnELIMINAR)
                     .addComponent(BtnCANCELAR))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addGap(19, 19, 19))
         );
 
         pack();
@@ -154,7 +157,39 @@ public class Form_Inicio_Empleados extends javax.swing.JFrame {
 
     // BOTON BUSCAR:
     private void BtnBUSCARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBUSCARActionPerformed
-        // TODO add your handling code here:
+        // Objeto:
+        Empleado empleado = new Empleado();
+
+        // Agregamos El Nombre Del Texbox Del Formulario
+        empleado.setNombre(TxtNOMBRE.getText());
+
+        // Lista De Registros Encontrados:
+        ArrayList<Empleado> Objetos_Obtenidos = EmpleadoDAL.Buscar(empleado);
+
+        // Nombrando Las Columnas De La Tabla:
+        String[] COLUMNAS = {"ID", "NOMBRE", "APELLIDO", "CARGO", "SALARIO", "Fecha De Contratacion"};
+
+        // Lista De Registros Encontrados Y Pasados A Object:
+        Object[][] DATOS = new Object[Objetos_Obtenidos.size()][6];
+
+        for (int i = 0; i < Objetos_Obtenidos.size(); i++) {
+            // Registro Con Su Posicion:
+            Empleado Registro = Objetos_Obtenidos.get(i);
+
+            // Creacion De Objeto Segun Objeto De La Posicion:
+            DATOS[i][0] = Registro.getEmpleadoID();
+            DATOS[i][1] = Registro.getNombre();
+            DATOS[i][2] = Registro.getApellido();
+            DATOS[i][3] = Registro.getCargo();
+            DATOS[i][4] = Registro.getSalario();
+            DATOS[i][5] = Registro.getFechaContratacion();
+        }
+
+        // Agregando Los Nombres De Las Columnas Y Los Registros
+        DefaultTableModel ResultadosTabla = new DefaultTableModel(DATOS, COLUMNAS);
+
+        // Mandamos A La Tabla Del Formulario
+        TablaResultados.setModel(ResultadosTabla);
     }//GEN-LAST:event_BtnBUSCARActionPerformed
    
     // BOTON CANCELAR:
@@ -203,9 +238,9 @@ public class Form_Inicio_Empleados extends javax.swing.JFrame {
     private javax.swing.JButton BtnCREAR;
     private javax.swing.JButton BtnEDITAR;
     private javax.swing.JButton BtnELIMINAR;
+    private javax.swing.JTable TablaResultados;
     private javax.swing.JTextField TxtNOMBRE;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
