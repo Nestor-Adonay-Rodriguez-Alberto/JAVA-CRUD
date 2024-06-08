@@ -4,6 +4,7 @@ import Acceso_Datos.EmpleadoDAL;
 import Entidades.Empleado;
 import Utilerias.OpcionesCRUD;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -147,7 +148,23 @@ public class Form_Inicio_Empleados extends javax.swing.JFrame {
 
     // BOTON EDITAR:
     private void BtnEDITARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEDITARActionPerformed
-        
+        // Fila Seleccionada:
+        int row = TablaResultados.getSelectedRow();
+
+        if (row != -1) 
+        {
+            
+            // LLamada Del Formulario:
+        Form_Empleados Formulario_Empleados = new Form_Empleados(OpcionesCRUD.EDITAR, DatosFila());
+        Formulario_Empleados.setTitle("EDITAR REGISTRO");
+        Formulario_Empleados.setVisible(true);
+        } 
+        else 
+        {
+            JOptionPane.showMessageDialog(this,
+                    "Seleccionar una fila", "SELECCIONE",
+                    JOptionPane.WARNING_MESSAGE);
+        }        
     }//GEN-LAST:event_BtnEDITARActionPerformed
 
     // BOTON ELIMINAR:
@@ -197,6 +214,35 @@ public class Form_Inicio_Empleados extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_BtnCANCELARActionPerformed
 
+    
+    /*                    METODO REALIZAR CAMBIOS EN DB
+    *********************************************************************/
+    
+    // CREA UN OBJETO CON TODOS LOS DATOS DE LA FILA SELECCIONADA:
+    private Empleado DatosFila()
+    {
+        // Objeto:
+        Empleado empleado = new Empleado();
+        
+        // Fila Seleccionada:
+        int row = TablaResultados.getSelectedRow();
+        
+        // Atributos De La Fila Colocarlos En El Objeto:
+        empleado.setEmpleadoID((int) TablaResultados.getValueAt(row, 0));
+        empleado.setNombre(TablaResultados.getValueAt(row, 1).toString());  
+        empleado.setApellido(TablaResultados.getValueAt(row, 2).toString()); 
+        empleado.setCargo(TablaResultados.getValueAt(row, 3).toString());
+        empleado.setSalario((double)TablaResultados.getValueAt(row, 4)); 
+        
+        Object valorFecha = TablaResultados.getValueAt(row, 5);
+        java.util.Date fechaContratacion = (java.util.Date) valorFecha;
+        empleado.setFechaContratacion(fechaContratacion);
+     
+        return empleado;
+    }
+    
+    
+    
     /**
      * @param args the command line arguments
      */

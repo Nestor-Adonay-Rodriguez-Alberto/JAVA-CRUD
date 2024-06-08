@@ -62,6 +62,8 @@ public class EmpleadoDAL {
                 java.sql.Date fechaContratacionSql = new java.sql.Date(fechaContratacionUtil.getTime());
                 statement.setDate(5, fechaContratacionSql);
                 
+                statement.setInt(6, empleado.getEmpleadoID());
+                
                 // Ejecuto El Comando en La DB:
                 int rowsAffected = statement.executeUpdate();
                 return rowsAffected;

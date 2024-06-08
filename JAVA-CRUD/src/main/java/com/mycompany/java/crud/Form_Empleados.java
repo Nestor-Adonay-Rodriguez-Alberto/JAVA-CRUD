@@ -6,6 +6,7 @@ import Utilerias.OpcionesCRUD;
 import static Utilerias.OpcionesCRUD.CREAR;
 import static Utilerias.OpcionesCRUD.EDITAR;
 import static Utilerias.OpcionesCRUD.ELIMINAR;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
 
@@ -19,9 +20,13 @@ public class Form_Empleados extends javax.swing.JFrame {
     public Form_Empleados(OpcionesCRUD opcion, Empleado empleado) {
         // Guardamos Opcion A Realizar:
         opcionesCRUD = opcion;
-        EmpleadoActual = empleado;
 
         initComponents();
+
+        if (opcion != OpcionesCRUD.CREAR) {
+            DatosEnFormulario(empleado);
+            EmpleadoActual = empleado;
+        }
     }
 
     /**
@@ -159,7 +164,7 @@ public class Form_Empleados extends javax.swing.JFrame {
                     break;
 
                 case EDITAR:
-                    //EditarRegistro();
+                    EditarRegistro();
                     this.setVisible(false);
                     break;
 
@@ -179,8 +184,11 @@ public class Form_Empleados extends javax.swing.JFrame {
         setVisible(false);
     }//GEN-LAST:event_BtnCancelarActionPerformed
 
+    
+    
     /*                    METODO REALIZAR CAMBIOS EN DB
     *********************************************************************/
+    
     // OBTIENE LOS ATRIBUTOS DEL FORMULARIO Y CREAR UN OBJETO DE ELLOS
     private Empleado DatosDelFormulario() {
         // Objeto:
@@ -216,13 +224,10 @@ public class Form_Empleados extends javax.swing.JFrame {
             throw new IllegalArgumentException("Debe Ingresar Un Salario");
         } else {
 
-            try 
-            {
+            try {
                 double salario = Double.parseDouble(salarioText);
                 empleado.setSalario(salario);
-            } 
-            catch (NumberFormatException e)
-            {
+            } catch (NumberFormatException e) {
                 throw new IllegalArgumentException("No Se Permite Letras En Salario");
             }
 
@@ -230,13 +235,24 @@ public class Form_Empleados extends javax.swing.JFrame {
 
         if (fechaContratacion == null) {
             throw new IllegalArgumentException("Debe Ingresar Una Fecha De Contratacion");
-        }
-        else
-        {
+        } else {
             empleado.setFechaContratacion(fechaContratacion);
         }
 
+        empleado.setEmpleadoID(EmpleadoActual.getEmpleadoID());
         return empleado;
+    }
+
+    // COLOCA DATOS DEL OBJETO EN FORMULARIO
+    private void DatosEnFormulario(Empleado empleado) 
+    {
+        
+        TxtNOMBRE.setText(empleado.getNombre());
+        TxtAPELLIDO.setText(empleado.getApellido());
+        TxtCARGO.setText(empleado.getCargo());
+        TxtSALARIO.setText(Double.toString(empleado.getSalario()));
+        TxtFechaContratacion.setDate(empleado.getFechaContratacion());
+        
     }
 
     // CREAR NUEVO REGISTRO:
@@ -258,14 +274,52 @@ public class Form_Empleados extends javax.swing.JFrame {
                         "Alguno De Los Campos Esta Vasio", "ERROR",
                         JOptionPane.ERROR_MESSAGE);
             }
-        } 
-        catch (Exception Error) {
+        } catch (Exception Error) {
             JOptionPane.showMessageDialog(this,
                     Error.getMessage(), "ERROR",
-                    JOptionPane.ERROR_MESSAGE);         
+                    JOptionPane.ERROR_MESSAGE);
         }
 
     }
+    
+     // EDITA EL REGISTRO:
+    private void EditarRegistro() 
+    {
+        try 
+        {
+            // Objeto Con Los Atributos Del Forulario
+            Empleado empleado = DatosDelFormulario();
+            
+            // Modificar El Registro En DB:
+            int result = EmpleadoDAL.Editar(empleado);
+            
+            if (result > 0) 
+            {
+                JOptionPane.showMessageDialog(this,
+                        "Datos Del Empleado Modificados", "MODIFICADO",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } 
+            else 
+            {
+                JOptionPane.showMessageDialog(this,
+                        "Error Al Querer Modificar Al Empleado", "ERROR",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        } 
+        catch (Exception Error) 
+        {
+            JOptionPane.showMessageDialog(this,
+                    Error.getMessage(), "ERROR",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnCancelar;
