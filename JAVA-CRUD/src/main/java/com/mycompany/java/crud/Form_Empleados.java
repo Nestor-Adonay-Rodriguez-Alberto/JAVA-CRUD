@@ -91,7 +91,7 @@ public class Form_Empleados extends javax.swing.JFrame {
                         .addGap(61, 61, 61)
                         .addComponent(BtnGUARDAR, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(BtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(BtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(19, 19, 19)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -169,7 +169,7 @@ public class Form_Empleados extends javax.swing.JFrame {
                     break;
 
                 case ELIMINAR:
-                    //EliminarRegistro();
+                    EliminarRegistro();
                     this.setVisible(false);
                     break;
 
@@ -254,6 +254,13 @@ public class Form_Empleados extends javax.swing.JFrame {
         TxtFechaContratacion.setDate(empleado.getFechaContratacion());
         
     }
+    
+    private Empleado ObtenerID()
+    {
+        Empleado empleado = new Empleado();
+        empleado.setEmpleadoID(EmpleadoActual.getEmpleadoID());
+        return empleado;
+    }
 
     // CREAR NUEVO REGISTRO:
     private void CrearRegistro() {
@@ -316,7 +323,38 @@ public class Form_Empleados extends javax.swing.JFrame {
     
     
     
-    
+     // ELIMINA EL REGISTRO DE LA DB:
+    private void EliminarRegistro() 
+    {
+        try 
+        {
+            // Objeto Con Datos Del Formulario:
+            Empleado persona = ObtenerID();
+            
+            // Eliminamos El Registro
+            int result = EmpleadoDAL.Eliminar(persona);
+            
+            if (result > 0)
+            {
+                JOptionPane.showMessageDialog(this,
+                        "El Empleado fue eliminado existosamente", "ELIMINADO",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } 
+            else 
+            {
+                JOptionPane.showMessageDialog(this,
+                        "Sucedio un error al eliminar el Empleado", "ERROR",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        catch (Exception Error) 
+        {
+            JOptionPane.showMessageDialog(this,
+                    Error.getMessage(), "ERROR PRODUCTO",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
     
     
     

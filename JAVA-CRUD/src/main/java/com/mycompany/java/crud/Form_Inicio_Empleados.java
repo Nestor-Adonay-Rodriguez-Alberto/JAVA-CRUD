@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-
 public class Form_Inicio_Empleados extends javax.swing.JFrame {
 
     // CONSTRUCTOR:
@@ -132,18 +131,16 @@ public class Form_Inicio_Empleados extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    
     /*                      EVENTOS DE BOTONES
     *********************************************************************/
-    
     // BOTON CREAR:
     private void BtnCREARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCREARActionPerformed
-        
+
         // LLamada Del Formulario:
         Form_Empleados Formulario_Empleados = new Form_Empleados(OpcionesCRUD.CREAR, new Empleado());
         Formulario_Empleados.setTitle("NUEVO REGISTRO");
         Formulario_Empleados.setVisible(true);
-        
+
     }//GEN-LAST:event_BtnCREARActionPerformed
 
     // BOTON EDITAR:
@@ -151,25 +148,35 @@ public class Form_Inicio_Empleados extends javax.swing.JFrame {
         // Fila Seleccionada:
         int row = TablaResultados.getSelectedRow();
 
-        if (row != -1) 
-        {
-            
+        if (row != -1) {
+
             // LLamada Del Formulario:
-        Form_Empleados Formulario_Empleados = new Form_Empleados(OpcionesCRUD.EDITAR, DatosFila());
-        Formulario_Empleados.setTitle("EDITAR REGISTRO");
-        Formulario_Empleados.setVisible(true);
-        } 
-        else 
-        {
+            Form_Empleados Formulario_Empleados = new Form_Empleados(OpcionesCRUD.EDITAR, DatosFila());
+            Formulario_Empleados.setTitle("EDITAR REGISTRO");
+            Formulario_Empleados.setVisible(true);
+        } else {
             JOptionPane.showMessageDialog(this,
                     "Seleccionar una fila", "SELECCIONE",
                     JOptionPane.WARNING_MESSAGE);
-        }        
+        }
     }//GEN-LAST:event_BtnEDITARActionPerformed
 
     // BOTON ELIMINAR:
     private void BtnELIMINARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnELIMINARActionPerformed
-        // TODO add your handling code here:
+
+        // Fila Seleccinada
+        int row = TablaResultados.getSelectedRow();
+
+        if (row != -1) {
+            // LLamada Del Formulario:
+            Form_Empleados Formulario_Empleados = new Form_Empleados(OpcionesCRUD.ELIMINAR, DatosFila());
+            Formulario_Empleados.setTitle("ELIMINAR REGISTRO");
+            Formulario_Empleados.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Seleccionar una fila", "SELECCIONE",
+                    JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_BtnELIMINARActionPerformed
 
     // BOTON BUSCAR:
@@ -208,41 +215,36 @@ public class Form_Inicio_Empleados extends javax.swing.JFrame {
         // Mandamos A La Tabla Del Formulario
         TablaResultados.setModel(ResultadosTabla);
     }//GEN-LAST:event_BtnBUSCARActionPerformed
-   
+
     // BOTON CANCELAR:
     private void BtnCANCELARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCANCELARActionPerformed
         this.setVisible(false);
     }//GEN-LAST:event_BtnCANCELARActionPerformed
 
-    
     /*                    METODO REALIZAR CAMBIOS EN DB
     *********************************************************************/
-    
     // CREA UN OBJETO CON TODOS LOS DATOS DE LA FILA SELECCIONADA:
-    private Empleado DatosFila()
-    {
+    private Empleado DatosFila() {
         // Objeto:
         Empleado empleado = new Empleado();
-        
+
         // Fila Seleccionada:
         int row = TablaResultados.getSelectedRow();
-        
+
         // Atributos De La Fila Colocarlos En El Objeto:
         empleado.setEmpleadoID((int) TablaResultados.getValueAt(row, 0));
-        empleado.setNombre(TablaResultados.getValueAt(row, 1).toString());  
-        empleado.setApellido(TablaResultados.getValueAt(row, 2).toString()); 
+        empleado.setNombre(TablaResultados.getValueAt(row, 1).toString());
+        empleado.setApellido(TablaResultados.getValueAt(row, 2).toString());
         empleado.setCargo(TablaResultados.getValueAt(row, 3).toString());
-        empleado.setSalario((double)TablaResultados.getValueAt(row, 4)); 
-        
+        empleado.setSalario((double) TablaResultados.getValueAt(row, 4));
+
         Object valorFecha = TablaResultados.getValueAt(row, 5);
         java.util.Date fechaContratacion = (java.util.Date) valorFecha;
         empleado.setFechaContratacion(fechaContratacion);
-     
+
         return empleado;
     }
-    
-    
-    
+
     /**
      * @param args the command line arguments
      */
