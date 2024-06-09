@@ -1,7 +1,10 @@
 package com.mycompany.java.crud;
 
+import Acceso_Datos.ProyectoDAL;
 import Entidades.Proyecto;
 import Utilerias.OpcionesCRUD;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 
 
 public class Form_Inicio_Proyecto extends javax.swing.JFrame {
@@ -98,7 +101,7 @@ public class Form_Inicio_Proyecto extends javax.swing.JFrame {
                         .addComponent(BtnBUSCAR, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(BtnCREAR, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 311, Short.MAX_VALUE)))
+                        .addGap(0, 576, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(14, 14, 14)
@@ -159,7 +162,41 @@ public class Form_Inicio_Proyecto extends javax.swing.JFrame {
     
     // BOTON BUSCAR:
     private void BtnBUSCARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBUSCARActionPerformed
-        // TODO add your handling code here:
+        // Objeto:
+        Proyecto proyecto = new Proyecto();
+
+        // Agregamos El Nombre Del Texbox Del Formulario
+        proyecto.setNombre(TxtNOMBRE.getText());
+
+        // Lista De Registros Encontrados:
+        ArrayList<Proyecto> Objetos_Obtenidos = ProyectoDAL.Buscar(proyecto);
+
+        // Nombrando Las Columnas De La Tabla:
+        String[] COLUMNAS = {"ID", "NOMBRE DEL PROYECTO", "DESCRIPCION", "FECHA DE INICIO", "FECHA DE FIN", "EMPLEADO A CARGO", "ID EMPLEADO"};
+
+        // Lista De Registros Encontrados Y Pasados A Object:
+        Object[][] DATOS = new Object[Objetos_Obtenidos.size()][7];
+
+        for (int i = 0; i < Objetos_Obtenidos.size(); i++) {
+            // Registro Con Su Posicion:
+            Proyecto Registro = Objetos_Obtenidos.get(i);
+
+            
+            // Creacion De Objeto Segun Objeto De La Posicion:
+            DATOS[i][0] = Registro.getProyectoID();
+            DATOS[i][1] = Registro.getNombre();
+            DATOS[i][2] = Registro.getDescripcion();
+            DATOS[i][3] = Registro.getFechaInicio();
+            DATOS[i][4] = Registro.getFechaFin();
+            DATOS[i][5] = (Registro.getObjeto_Empledo().getNombre())+" "+(Registro.getObjeto_Empledo().getApellido());
+            DATOS[i][6] = Registro.getEmpledoID();          
+        }
+
+        // Agregando Los Nombres De Las Columnas Y Los Registros
+        DefaultTableModel ResultadosTabla = new DefaultTableModel(DATOS, COLUMNAS);
+
+        // Mandamos A La Tabla Del Formulario
+        TablaResultados.setModel(ResultadosTabla);
     }//GEN-LAST:event_BtnBUSCARActionPerformed
 
     

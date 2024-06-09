@@ -78,13 +78,13 @@ public class Form_INICIO extends javax.swing.JFrame {
     // LLAMAMOS FORMULARIO:
     private void MenuEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuEmpleadosActionPerformed
         Form_Inicio_Empleados Inicio_Empleados = new Form_Inicio_Empleados();      
-        Inicio_Empleados.setTitle("REGISTROS");
+        Inicio_Empleados.setTitle("REGISTROS DE EMPLEADOS");
         Inicio_Empleados.setVisible(true);
     }//GEN-LAST:event_MenuEmpleadosActionPerformed
 
     private void MenuProyectosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuProyectosActionPerformed
         Form_Inicio_Proyecto Inicio_Proyectco = new Form_Inicio_Proyecto();
-        Inicio_Proyectco.setTitle("REGISTROS");
+        Inicio_Proyectco.setTitle("REGISTROS DE PROYECTOS");
         Inicio_Proyectco.setVisible(true);
     }//GEN-LAST:event_MenuProyectosActionPerformed
 
