@@ -43,6 +43,35 @@ public class ProyectoDAL {
         }
     }
 
+    // RECIBE UN OBJETO Y LO ELIMINA DE LA DB:
+    public static int Eliminar(Proyecto proyecto) 
+    {
+        try (Connection conn = DBConexion.obtenerConexion()) 
+        {
+            // Comando sql Para Eliminar:
+            String sql = "DELETE FROM Proyectos WHERE ProyectoID=?";
+            
+            // Colocando Datos Al Comando sql:
+            try (PreparedStatement statement = conn.prepareStatement(sql)) 
+            {
+                statement.setInt(1, proyecto.getProyectoID());
+                
+                // Ejecuto El Comando en La DB:
+                int rowsAffected = statement.executeUpdate();
+                return rowsAffected;
+            } 
+            catch (SQLException e) 
+            {
+                throw new RuntimeException("Error al Eliminar el Proyecto", e);
+            }
+        }
+        catch (SQLException e) 
+        {
+            throw new RuntimeException("Error al obtener la conexión a la base de datos", e);
+        }
+    }
+    
+    
     // RECIBE UN OBJETO LO BUSCA EN LA DB Y RETORNA TODOS LOS REGUISTRO IGUALES:
     public static ArrayList<Proyecto> Buscar(Proyecto proyecto) {
         // Lista De Registros:

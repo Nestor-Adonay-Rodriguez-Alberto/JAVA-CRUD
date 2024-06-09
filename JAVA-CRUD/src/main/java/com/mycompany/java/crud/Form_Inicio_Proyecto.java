@@ -1,11 +1,12 @@
 package com.mycompany.java.crud;
 
 import Acceso_Datos.ProyectoDAL;
+import Entidades.Empleado;
 import Entidades.Proyecto;
 import Utilerias.OpcionesCRUD;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-
 
 public class Form_Inicio_Proyecto extends javax.swing.JFrame {
 
@@ -135,31 +136,37 @@ public class Form_Inicio_Proyecto extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    
-    
     /*                      EVENTOS DE BOTONES
     *********************************************************************/
-    
     // BOTON CREAR:
     private void BtnCREARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCREARActionPerformed
-        Form_Proyecto Formulario_Proyecto1 = new Form_Proyecto(OpcionesCRUD.CREAR,new Proyecto());
+        Form_Proyecto Formulario_Proyecto1 = new Form_Proyecto(OpcionesCRUD.CREAR, new Proyecto());
         Formulario_Proyecto1.setTitle("NUEVO REGISTRO");
         Formulario_Proyecto1.setVisible(true);
     }//GEN-LAST:event_BtnCREARActionPerformed
 
-    
     // BOTON EDITAR:
     private void BtnEDITARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEDITARActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_BtnEDITARActionPerformed
 
-    
     // BOTON ELIMINAR:
     private void BtnELIMINARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnELIMINARActionPerformed
-        // TODO add your handling code here:
+        // Fila Seleccinada
+        int row = TablaResultados.getSelectedRow();
+
+        if (row != -1) {
+            // LLamada Del Formulario:
+            Form_Proyecto Formulario_Proyecto1 = new Form_Proyecto(OpcionesCRUD.ELIMINAR, DatosFila());
+            Formulario_Proyecto1.setTitle("ELIMINAR REGISTRO");
+            Formulario_Proyecto1.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Seleccionar una fila", "SELECCIONE",
+                    JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_BtnELIMINARActionPerformed
 
-    
     // BOTON BUSCAR:
     private void BtnBUSCARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBUSCARActionPerformed
         // Objeto:
@@ -181,15 +188,14 @@ public class Form_Inicio_Proyecto extends javax.swing.JFrame {
             // Registro Con Su Posicion:
             Proyecto Registro = Objetos_Obtenidos.get(i);
 
-            
             // Creacion De Objeto Segun Objeto De La Posicion:
             DATOS[i][0] = Registro.getProyectoID();
             DATOS[i][1] = Registro.getNombre();
             DATOS[i][2] = Registro.getDescripcion();
             DATOS[i][3] = Registro.getFechaInicio();
             DATOS[i][4] = Registro.getFechaFin();
-            DATOS[i][5] = (Registro.getObjeto_Empledo().getNombre())+" "+(Registro.getObjeto_Empledo().getApellido());
-            DATOS[i][6] = Registro.getEmpledoID();          
+            DATOS[i][5] = (Registro.getObjeto_Empledo().getNombre()) + " " + (Registro.getObjeto_Empledo().getApellido());
+            DATOS[i][6] = Registro.getEmpledoID();
         }
 
         // Agregando Los Nombres De Las Columnas Y Los Registros
@@ -199,12 +205,51 @@ public class Form_Inicio_Proyecto extends javax.swing.JFrame {
         TablaResultados.setModel(ResultadosTabla);
     }//GEN-LAST:event_BtnBUSCARActionPerformed
 
-    
     // BOTON CANCELAR:
     private void BtnCANCELARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCANCELARActionPerformed
         setVisible(false);
     }//GEN-LAST:event_BtnCANCELARActionPerformed
 
+    
+    
+    
+    /*                    METODO REALIZAR CAMBIOS EN DB
+    *********************************************************************/
+    // CREA UN OBJETO CON TODOS LOS DATOS DE LA FILA SELECCIONADA:
+    private Proyecto DatosFila() {
+        // Objeto:
+        Proyecto proyecto = new Proyecto();
+
+        // Fila Seleccionada:
+        int row = TablaResultados.getSelectedRow();
+
+        // Atributos De La Fila Colocarlos En El Objeto:
+        proyecto.setProyectoID((int) TablaResultados.getValueAt(row, 0));
+        proyecto.setNombre(TablaResultados.getValueAt(row, 1).toString());
+        proyecto.setDescripcion(TablaResultados.getValueAt(row, 2).toString());
+
+        Object valorFechaInicio = TablaResultados.getValueAt(row, 3);
+        java.util.Date fechaInicio = (java.util.Date) valorFechaInicio;
+        proyecto.setFechaInicio(fechaInicio);
+        
+        Object valorFechaFin = TablaResultados.getValueAt(row, 4);
+        java.util.Date fechaFin = (java.util.Date) valorFechaFin;
+        proyecto.setFechaFin(fechaFin);
+        
+        proyecto.setEmpledoID((int)TablaResultados.getValueAt(row, 6));
+        
+        Empleado empleado = new Empleado();
+        empleado.setNombre(TablaResultados.getValueAt(row, 5).toString());
+        empleado.setEmpleadoID((int)TablaResultados.getValueAt(row, 6));
+        proyecto.setObjeto_Empledo(empleado);
+        
+        return proyecto;
+    }
+    
+    
+    
+    
+    
     /**
      * @param args the command line arguments
      */

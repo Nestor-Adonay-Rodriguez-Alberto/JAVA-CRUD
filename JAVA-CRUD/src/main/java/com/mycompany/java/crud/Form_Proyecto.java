@@ -44,6 +44,10 @@ public class Form_Proyecto extends javax.swing.JFrame {
         // Mandamos al ComboBox Del Formulario Los Registros De Categoria
         TxtEMPLEADOS.setModel(RegistroCombo);
 
+         if (opcion != OpcionesCRUD.CREAR) {
+            DatosEnFormulario(proyecto);
+            ProyectoActual = proyecto;
+        }
     }
 
     /**
@@ -199,7 +203,7 @@ public class Form_Proyecto extends javax.swing.JFrame {
                     break;
 
                 case ELIMINAR:
-                    //EliminarRegistro();
+                    EliminarRegistro();
                     this.setVisible(false);
                     break;
 
@@ -262,6 +266,18 @@ public class Form_Proyecto extends javax.swing.JFrame {
     }
     
     
+    // COLOCA DATOS DEL OBJETO EN FORMULARIO
+    private void DatosEnFormulario(Proyecto proyecto) 
+    {     
+        TxtNOMBRE.setText(proyecto.getNombre());
+        TxtDESCRIPCION.setText(proyecto.getDescripcion());
+        TxtFechaInicio.setDate(proyecto.getFechaInicio());
+        TxtFechaFin.setDate(proyecto.getFechaFin());
+        
+        Empleado empleado = Registros_Empleados.get(proyecto.getEmpledoID());
+        TxtEMPLEADOS.setSelectedItem(empleado);
+    }
+    
      // CREAR NUEVO REGISTRO:
     private void CrearRegistro() 
     {
@@ -292,7 +308,45 @@ public class Form_Proyecto extends javax.swing.JFrame {
     }
     
     
-    
+    // OBTIENE EL OBJETO SEGUN SU ID:
+    private Proyecto ObtenerID()
+    {
+        Proyecto proyecto = new Proyecto();
+        proyecto.setProyectoID(ProyectoActual.getProyectoID());
+        return proyecto;
+    }
+    // ELIMINA EL REGISTRO DE LA DB:
+    private void EliminarRegistro() 
+    {
+        try 
+        {
+            // Objeto Con Datos Del Formulario:
+            Proyecto proyecto = ObtenerID();
+            
+            // Eliminamos El Registro
+            int result = ProyectoDAL.Eliminar(proyecto);
+            
+            if (result > 0)
+            {
+                JOptionPane.showMessageDialog(this,
+                        "El Empleado fue eliminado existosamente", "ELIMINADO",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } 
+            else 
+            {
+                JOptionPane.showMessageDialog(this,
+                        "Sucedio un error al eliminar el Empleado", "ERROR",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        catch (Exception Error) 
+        {
+            JOptionPane.showMessageDialog(this,
+                    Error.getMessage(), "ERROR PRODUCTO",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
