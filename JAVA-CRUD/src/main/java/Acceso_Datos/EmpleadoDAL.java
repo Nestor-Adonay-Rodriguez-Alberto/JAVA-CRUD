@@ -161,4 +161,53 @@ public class EmpleadoDAL {
         // Mandando al Form Los Refistros:
         return Lista_Empleados;
     }
+    
+    
+    // OBTIENE TODOS LOS REGISTROS DE LA DB Y LOS RETORNA:
+    public static ArrayList<Empleado> ObtenerTodos() 
+    {
+        // Lista De Registro De La DB:
+        ArrayList<Empleado> Objetos_Obtenidos = new ArrayList<>();
+        
+        try (Connection conn = DBConexion.obtenerConexion()) 
+        {
+            // Comando Para Obtener Registros:
+            String sql = "SELECT EmpleadoID, Nombre FROM Empleados";   
+            
+            try (PreparedStatement statement = conn.prepareStatement(sql)) 
+            {            
+                
+                try (ResultSet resultSet = statement.executeQuery()) 
+                {
+                    while (resultSet.next()) 
+                    {
+                        // Obtenemos Los Atributos Del Registro Obtenido:
+                        int empleadoID = resultSet.getInt("EmpleadoID");
+                        String nombre = resultSet.getString("Nombre");
+                          
+                        
+                        // Objeto Con los Atributos Obtenidos:
+                        Empleado empleado = new Empleado();
+                        empleado.setEmpleadoID(empleadoID);
+                        empleado.setNombre(nombre);
+                        
+                        
+                        // Agregamos a la Lista:
+                        Objetos_Obtenidos.add(empleado);
+                    }
+                }
+            } 
+            catch (SQLException e) 
+            {
+                throw new RuntimeException("Error Al Obtener Los Empleados", e);
+            }
+        } 
+        catch (SQLException e) 
+        {
+            throw new RuntimeException("Error al obtener la conexión a la base de datos", e);
+        }
+        
+        // Mandamos Los Registros:
+        return Objetos_Obtenidos;
+    }
 }

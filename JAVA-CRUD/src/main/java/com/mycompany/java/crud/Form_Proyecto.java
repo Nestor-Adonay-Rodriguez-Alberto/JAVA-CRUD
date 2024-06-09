@@ -1,11 +1,49 @@
 package com.mycompany.java.crud;
 
+import Acceso_Datos.EmpleadoDAL;
+import Acceso_Datos.ProyectoDAL;
+import Entidades.Empleado;
+import Entidades.Proyecto;
+import Utilerias.OpcionesCRUD;
+import static Utilerias.OpcionesCRUD.CREAR;
+import static Utilerias.OpcionesCRUD.EDITAR;
+import static Utilerias.OpcionesCRUD.ELIMINAR;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 public class Form_Proyecto extends javax.swing.JFrame {
 
+    // ATRIBUTOS:
+    private OpcionesCRUD opcionesCRUD;
+    private Proyecto ProyectoActual;
+    // Lista De Categorias
+    private HashMap<Integer, Empleado> Registros_Empleados = new HashMap<Integer, Empleado>();
+
+    
+    
     // CONSTRUCTOR:
-    public Form_Proyecto() {
+    public Form_Proyecto(OpcionesCRUD opcion, Proyecto proyecto) {
+        // Opcion A Realizar:
+        opcionesCRUD = opcion;
         initComponents();
+
+        //Obtenemos Todos Los Registros Tabla Categorias:
+        ArrayList<Empleado> Objetos_Obtenidos = EmpleadoDAL.ObtenerTodos();
+
+        // Agrupamos Los Registros Por Nombres:
+        DefaultComboBoxModel<Empleado> RegistroCombo = new DefaultComboBoxModel(Objetos_Obtenidos.toArray());
+
+        // Agregamos Cada Categoria A Una Estructura
+        for (Empleado Registro : Objetos_Obtenidos) {
+            Registros_Empleados.put(Registro.getEmpleadoID(), Registro);
+        }
+
+        // Mandamos al ComboBox Del Formulario Los Registros De Categoria
+        TxtEMPLEADOS.setModel(RegistroCombo);
+
     }
 
     /**
@@ -45,8 +83,6 @@ public class Form_Proyecto extends javax.swing.JFrame {
         jLabel4.setText("Fecha De Inicio:");
 
         jLabel5.setText("Fecha De Fin:");
-
-        TxtEMPLEADOS.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel6.setText("Empleado A Cargo:");
 
@@ -89,9 +125,10 @@ public class Form_Proyecto extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
                             .addComponent(TxtNOMBRE)
-                            .addComponent(TxtFechaFin, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
-                            .addComponent(TxtFechaInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(TxtEMPLEADOS, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(TxtEMPLEADOS, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(TxtFechaFin, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+                                .addComponent(TxtFechaInicio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(75, 75, 75)
                         .addComponent(BtnGUARDAR, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -144,59 +181,125 @@ public class Form_Proyecto extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    
     /*                      EVENTOS DE BOTONES
     *********************************************************************/
-    
-    
+
     private void BtnGUARDARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnGUARDARActionPerformed
-        // TODO add your handling code here:
+
+        if (opcionesCRUD != null) {
+            switch (opcionesCRUD) {
+                case CREAR:
+                    CrearRegistro();
+                    this.setVisible(false);
+                    break;
+
+                case EDITAR:
+                    //EditarRegistro();
+                    this.setVisible(false);
+                    break;
+
+                case ELIMINAR:
+                    //EliminarRegistro();
+                    this.setVisible(false);
+                    break;
+
+                default:
+                    break;
+            }
+        }
     }//GEN-LAST:event_BtnGUARDARActionPerformed
 
     private void BtnCANCELARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCANCELARActionPerformed
         setVisible(false);
     }//GEN-LAST:event_BtnCANCELARActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Form_Proyecto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Form_Proyecto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Form_Proyecto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Form_Proyecto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    /*                    METODO REALIZAR CAMBIOS EN DB
+    *********************************************************************/
+    // OBTIENE LOS ATRIBUTOS DEL FORMULARIO Y CREAR UN OBJETO DE ELLOS
+    private Proyecto DatosDelFormulario() {
+        
+        // Objeto:
+        Proyecto proyecto = new Proyecto();
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Form_Proyecto().setVisible(true);
-            }
-        });
+        // Datos Del Formulario:
+        String nombre = TxtNOMBRE.getText();
+        String descripcion = TxtDESCRIPCION.getText();
+        Date fechainicio = TxtFechaInicio.getDate();
+        Date fechafin = TxtFechaFin.getDate();
+        Empleado empleado = (Empleado) TxtEMPLEADOS.getSelectedItem();
+        int empleadoID = empleado.getEmpleadoID();
+
+        // Validamos Que No Esten Vasios:  
+        
+        if (nombre.trim().isEmpty()) {
+            throw new IllegalArgumentException("Debe Ingresar Un Nombre");
+        } else {
+            proyecto.setNombre(nombre);
+        }
+    
+        if (fechainicio==null) {
+            throw new IllegalArgumentException("Debe Ingresar Una Fecha De Inicio");
+        } else {
+            proyecto.setFechaInicio(fechainicio);
+        }
+
+        if (fechafin==null) {
+            throw new IllegalArgumentException("Debe Ingresar Una Fecha De Finalizacion");
+        } else {
+            proyecto.setFechaFin(fechafin);
+        }
+        
+        proyecto.setDescripcion(descripcion);
+        
+        // Empleado Seleccionado:
+        proyecto.setEmpledoID(empleadoID);
+        
+        if(opcionesCRUD!=CREAR)
+        {
+            proyecto.setProyectoID(ProyectoActual.getProyectoID());
+        }
+        return proyecto;
     }
+    
+    
+     // CREAR NUEVO REGISTRO:
+    private void CrearRegistro() 
+    {
+        
+        try {
+            // Obtenemos Objeto Con inf Del Formulario:
+            Proyecto proyecto = DatosDelFormulario();
+
+            // Creamos El Registro:           
+            int result = ProyectoDAL.Crear(proyecto);
+
+            // Mensaje De Fila Afectada
+            if (result > 0) {
+                JOptionPane.showMessageDialog(this,
+                        "El Proyecto fue registrado existosamente", "REGISTRADO",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "No Se Pudo Registrar El Proyecto", "ERROR",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        } 
+        catch (Exception Error) {
+            JOptionPane.showMessageDialog(this,
+                    Error.getMessage(), "HOLAAA",
+                    JOptionPane.ERROR_MESSAGE);     
+        }       
+    }
+    
+    
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnCANCELAR;
     private javax.swing.JButton BtnGUARDAR;
     private javax.swing.JTextArea TxtDESCRIPCION;
-    private javax.swing.JComboBox<String> TxtEMPLEADOS;
+    private javax.swing.JComboBox<Empleado> TxtEMPLEADOS;
     private com.toedter.calendar.JDateChooser TxtFechaFin;
     private com.toedter.calendar.JDateChooser TxtFechaInicio;
     private javax.swing.JTextField TxtNOMBRE;

@@ -6,6 +6,7 @@ import java.util.Date;
 public class Proyecto 
 {
     // ATRIBUTOS:
+    private int ProyectoID;
     private String Nombre;
     private String Descripcion;
     private Date FechaInicio;
@@ -18,6 +19,13 @@ public class Proyecto
     
     // ACCESORS:
 
+    public int getProyectoID() {
+        return ProyectoID;
+    }
+
+    public void setProyectoID(int proyectoID) {
+        this.ProyectoID = proyectoID;
+    }
     public String getNombre() {
         return Nombre;
     }

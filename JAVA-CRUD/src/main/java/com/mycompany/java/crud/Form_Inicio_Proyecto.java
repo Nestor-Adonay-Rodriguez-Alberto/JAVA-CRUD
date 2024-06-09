@@ -1,5 +1,8 @@
 package com.mycompany.java.crud;
 
+import Entidades.Proyecto;
+import Utilerias.OpcionesCRUD;
+
 
 public class Form_Inicio_Proyecto extends javax.swing.JFrame {
 
@@ -136,9 +139,9 @@ public class Form_Inicio_Proyecto extends javax.swing.JFrame {
     
     // BOTON CREAR:
     private void BtnCREARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCREARActionPerformed
-        Form_Proyecto Formulario_Proyecto = new Form_Proyecto();
-        Formulario_Proyecto.setTitle("NUEVO REGISTRO");
-        Formulario_Proyecto.setVisible(true);
+        Form_Proyecto Formulario_Proyecto1 = new Form_Proyecto(OpcionesCRUD.CREAR,new Proyecto());
+        Formulario_Proyecto1.setTitle("NUEVO REGISTRO");
+        Formulario_Proyecto1.setVisible(true);
     }//GEN-LAST:event_BtnCREARActionPerformed
 
     

@@ -89,4 +89,10 @@ public class Empleado
         Salario=salario;
         FechaContratacion=fechacontratacion;
     }
+    
+    // PARA COMBO
+    @Override
+    public String toString() {
+        return Nombre;
+    }
 }

@@ -266,7 +266,9 @@ public class Form_Empleados extends javax.swing.JFrame {
     }
 
     // CREAR NUEVO REGISTRO:
-    private void CrearRegistro() {
+    private void CrearRegistro() 
+    {
+        
         try {
             // Obtenemos Objeto Con inf Del Formulario:
             Empleado empleado = DatosDelFormulario();
@@ -287,9 +289,8 @@ public class Form_Empleados extends javax.swing.JFrame {
         } catch (Exception Error) {
             JOptionPane.showMessageDialog(this,
                     Error.getMessage(), "ERROR",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-
+                    JOptionPane.ERROR_MESSAGE);     
+        }       
     }
     
      // EDITA EL REGISTRO:
