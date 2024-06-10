@@ -72,6 +72,48 @@ public class ProyectoDAL {
     }
     
     
+    // RECIBE UN OBJETO Y LO MODIFICA EN LA DB:
+    public static int Editar(Proyecto proyecto) 
+    {
+        try (Connection conn = DBConexion.obtenerConexion()) 
+        {
+            // Comando sql Para Modificar:
+            String sql = "UPDATE Proyectos SET Nombre=?, Descripcion=?, FechaInicio=?, FechaFin=?, EmpleadoID=? WHERE ProyectoID=?";
+           
+            // Colocando Datos Al Comando sql:
+            try (PreparedStatement statement = conn.prepareStatement(sql)) 
+            {
+                statement.setString(1, proyecto.getNombre());
+                statement.setString(2, proyecto.getDescripcion());
+                
+                java.util.Date fechainicioUtil = proyecto.getFechaInicio();
+                java.sql.Date fechainicioSql = new java.sql.Date(fechainicioUtil.getTime());
+                statement.setDate(3, fechainicioSql);
+                
+                java.util.Date fechafinUtil = proyecto.getFechaFin();
+                java.sql.Date fechafinSql = new java.sql.Date(fechafinUtil.getTime());
+                statement.setDate(4, fechafinSql);
+                
+                statement.setInt(5, proyecto.getEmpledoID());
+                statement.setInt(6, proyecto.getProyectoID());
+                
+                // Ejecuto El Comando en La DB:
+                int rowsAffected = statement.executeUpdate();
+                return rowsAffected;
+            } 
+            catch (SQLException e) 
+            {
+                throw new RuntimeException("Error al Editar el Proyecto", e);
+            }
+        }
+        catch (SQLException e) 
+        {
+            throw new RuntimeException("Error al obtener la conexión a la base de datos", e);
+        }
+    }
+    
+    
+    
     // RECIBE UN OBJETO LO BUSCA EN LA DB Y RETORNA TODOS LOS REGUISTRO IGUALES:
     public static ArrayList<Proyecto> Buscar(Proyecto proyecto) {
         // Lista De Registros:

@@ -140,6 +140,8 @@ public class Form_Inicio_Proyecto extends javax.swing.JFrame {
     *********************************************************************/
     // BOTON CREAR:
     private void BtnCREARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCREARActionPerformed
+        
+        // LLamada Del Formulario:
         Form_Proyecto Formulario_Proyecto1 = new Form_Proyecto(OpcionesCRUD.CREAR, new Proyecto());
         Formulario_Proyecto1.setTitle("NUEVO REGISTRO");
         Formulario_Proyecto1.setVisible(true);
@@ -147,7 +149,11 @@ public class Form_Inicio_Proyecto extends javax.swing.JFrame {
 
     // BOTON EDITAR:
     private void BtnEDITARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEDITARActionPerformed
-        // TODO add your handling code here:
+        
+        // LLamada Del Formulario:
+        Form_Proyecto Formulario_Proyecto1 = new Form_Proyecto(OpcionesCRUD.EDITAR, DatosFila());
+        Formulario_Proyecto1.setTitle("EDITAR REGISTRO");
+        Formulario_Proyecto1.setVisible(true);
     }//GEN-LAST:event_BtnEDITARActionPerformed
 
     // BOTON ELIMINAR:

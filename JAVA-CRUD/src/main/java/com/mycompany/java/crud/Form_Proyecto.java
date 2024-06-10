@@ -22,8 +22,6 @@ public class Form_Proyecto extends javax.swing.JFrame {
     // Lista De Categorias
     private HashMap<Integer, Empleado> Registros_Empleados = new HashMap<Integer, Empleado>();
 
-    
-    
     // CONSTRUCTOR:
     public Form_Proyecto(OpcionesCRUD opcion, Proyecto proyecto) {
         // Opcion A Realizar:
@@ -44,7 +42,7 @@ public class Form_Proyecto extends javax.swing.JFrame {
         // Mandamos al ComboBox Del Formulario Los Registros De Categoria
         TxtEMPLEADOS.setModel(RegistroCombo);
 
-         if (opcion != OpcionesCRUD.CREAR) {
+        if (opcion != OpcionesCRUD.CREAR) {
             DatosEnFormulario(proyecto);
             ProyectoActual = proyecto;
         }
@@ -198,7 +196,7 @@ public class Form_Proyecto extends javax.swing.JFrame {
                     break;
 
                 case EDITAR:
-                    //EditarRegistro();
+                    EditarRegistro();
                     this.setVisible(false);
                     break;
 
@@ -221,7 +219,7 @@ public class Form_Proyecto extends javax.swing.JFrame {
     *********************************************************************/
     // OBTIENE LOS ATRIBUTOS DEL FORMULARIO Y CREAR UN OBJETO DE ELLOS
     private Proyecto DatosDelFormulario() {
-        
+
         // Objeto:
         Proyecto proyecto = new Proyecto();
 
@@ -234,54 +232,49 @@ public class Form_Proyecto extends javax.swing.JFrame {
         int empleadoID = empleado.getEmpleadoID();
 
         // Validamos Que No Esten Vasios:  
-        
         if (nombre.trim().isEmpty()) {
             throw new IllegalArgumentException("Debe Ingresar Un Nombre");
         } else {
             proyecto.setNombre(nombre);
         }
-    
-        if (fechainicio==null) {
+
+        if (fechainicio == null) {
             throw new IllegalArgumentException("Debe Ingresar Una Fecha De Inicio");
         } else {
             proyecto.setFechaInicio(fechainicio);
         }
 
-        if (fechafin==null) {
+        if (fechafin == null) {
             throw new IllegalArgumentException("Debe Ingresar Una Fecha De Finalizacion");
         } else {
             proyecto.setFechaFin(fechafin);
         }
-        
+
         proyecto.setDescripcion(descripcion);
-        
+
         // Empleado Seleccionado:
         proyecto.setEmpledoID(empleadoID);
-        
-        if(opcionesCRUD!=CREAR)
-        {
+
+        if (opcionesCRUD != CREAR) {
             proyecto.setProyectoID(ProyectoActual.getProyectoID());
         }
         return proyecto;
     }
-    
-    
+
     // COLOCA DATOS DEL OBJETO EN FORMULARIO
-    private void DatosEnFormulario(Proyecto proyecto) 
-    {     
+    private void DatosEnFormulario(Proyecto proyecto) {
         TxtNOMBRE.setText(proyecto.getNombre());
         TxtDESCRIPCION.setText(proyecto.getDescripcion());
         TxtFechaInicio.setDate(proyecto.getFechaInicio());
         TxtFechaFin.setDate(proyecto.getFechaFin());
-        
+
         Empleado empleado = Registros_Empleados.get(proyecto.getEmpledoID());
         TxtEMPLEADOS.setSelectedItem(empleado);
     }
-    
-     // CREAR NUEVO REGISTRO:
-    private void CrearRegistro() 
-    {
-        
+
+    // CREAR NUEVO REGISTRO:
+    private void CrearRegistro() {
+
         try {
             // Obtenemos Objeto Con inf Del Formulario:
             Proyecto proyecto = DatosDelFormulario();
@@ -299,55 +292,81 @@ public class Form_Proyecto extends javax.swing.JFrame {
                         "No Se Pudo Registrar El Proyecto", "ERROR",
                         JOptionPane.ERROR_MESSAGE);
             }
-        } 
-        catch (Exception Error) {
+        } catch (Exception Error) {
             JOptionPane.showMessageDialog(this,
                     Error.getMessage(), "HOLAAA",
-                    JOptionPane.ERROR_MESSAGE);     
-        }       
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     
-    // OBTIENE EL OBJETO SEGUN SU ID:
-    private Proyecto ObtenerID()
-    {
-        Proyecto proyecto = new Proyecto();
-        proyecto.setProyectoID(ProyectoActual.getProyectoID());
-        return proyecto;
-    }
-    // ELIMINA EL REGISTRO DE LA DB:
-    private void EliminarRegistro() 
+    // EDITA EL REGISTRO:
+    private void EditarRegistro() 
     {
         try 
         {
-            // Objeto Con Datos Del Formulario:
-            Proyecto proyecto = ObtenerID();
+            // Objeto Con Los Atributos Del Forulario
+            Proyecto empleado = DatosDelFormulario();
             
-            // Eliminamos El Registro
-            int result = ProyectoDAL.Eliminar(proyecto);
+            // Modificar El Registro En DB:
+            int result = ProyectoDAL.Editar(empleado);
             
-            if (result > 0)
+            if (result > 0) 
             {
                 JOptionPane.showMessageDialog(this,
-                        "El Empleado fue eliminado existosamente", "ELIMINADO",
+                        "Datos Del Proyecto Modificados", "MODIFICADO",
                         JOptionPane.INFORMATION_MESSAGE);
             } 
             else 
             {
                 JOptionPane.showMessageDialog(this,
+                        "Error Al Querer Modificar El Proyecto", "ERROR",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        } 
+        catch (Exception Error) 
+        {
+            JOptionPane.showMessageDialog(this,
+                    Error.getMessage(), "ERROR",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    
+
+    // OBTIENE EL OBJETO SEGUN SU ID:
+    private Proyecto ObtenerID() {
+        Proyecto proyecto = new Proyecto();
+        proyecto.setProyectoID(ProyectoActual.getProyectoID());
+        return proyecto;
+    }
+
+    // ELIMINA EL REGISTRO DE LA DB:
+    private void EliminarRegistro() {
+        try {
+            // Objeto Con Datos Del Formulario:
+            Proyecto proyecto = ObtenerID();
+
+            // Eliminamos El Registro
+            int result = ProyectoDAL.Eliminar(proyecto);
+
+            if (result > 0) {
+                JOptionPane.showMessageDialog(this,
+                        "El Empleado fue eliminado existosamente", "ELIMINADO",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this,
                         "Sucedio un error al eliminar el Empleado", "ERROR",
                         JOptionPane.ERROR_MESSAGE);
             }
-        }
-        catch (Exception Error) 
-        {
+        } catch (Exception Error) {
             JOptionPane.showMessageDialog(this,
                     Error.getMessage(), "ERROR PRODUCTO",
                     JOptionPane.ERROR_MESSAGE);
         }
 
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnCANCELAR;
